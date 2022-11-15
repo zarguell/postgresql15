@@ -24,9 +24,9 @@ RUN dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-a
 ## not needed, not in ubi
 # RUN dnf -qy module disable postgresql
 
-## TODO: find out why gpg key is failing for aarch64 (https://www.postgresql.org/message-id/a118467b-3284-c5c4-0e78-1942da0566b4%40pgmasters.net)
+## TODO: arm packages not signed, need nogpgcheck
 RUN dnf update -y && \
-    dnf install -y glibc-langpack-en postgresql15-server postgresql15 postgresql15-libs postgresql15-contrib && \
+    dnf install -y --nogpgcheck glibc-langpack-en postgresql15-server postgresql15 postgresql15-libs postgresql15-contrib && \
     dnf clean all && \
     rm -rf /var/cache/dnf && \
     rm -rf /usr/share/doc/perl-IO-Socket-SSL/certs/* && \
