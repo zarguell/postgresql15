@@ -17,15 +17,13 @@ RUN groupadd -g 1001 postgres && \
 
 COPY --from=upstream --chown=root:root --chmod=755 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN rpm --import https://ftp.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-AARCH64-RHEL8
-
-RUN dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-aarch64/pgdg-redhat-repo-latest.noarch.rpm
-
 ## not needed, not in ubi
 # RUN dnf -qy module disable postgresql
 
 ## TODO: arm packages not signed, need nogpgcheck
-RUN dnf update -y && \
+RUN rpm --import https://ftp.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-AARCH64-RHEL8 && \
+    dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-aarch64/pgdg-redhat-repo-latest.noarch.rpm && \
+    dnf update -y && \
     dnf install -y --nogpgcheck glibc-langpack-en postgresql15-server postgresql15 postgresql15-libs postgresql15-contrib && \
     dnf clean all && \
     rm -rf /var/cache/dnf && \
@@ -33,7 +31,7 @@ RUN dnf update -y && \
     rm -rf /usr/share/doc/perl-IO-Socket-SSL/example && \
     rm -rf /usr/share/doc/perl-Net-SSLeay/examples && \
     chmod +x /usr/local/bin/docker-entrypoint.sh &&\
-    chmod o-w /usr/local/bin/docker-entrypoint.sh &&\
+    chmod o-w /usr/local/bin/docker-entrypoint.sh
 
 RUN mkdir /docker-entrypoint-initdb.d && \
     chown postgres:postgres /docker-entrypoint-initdb.d && \
