@@ -17,9 +17,9 @@ RUN groupadd -g 1001 postgres && \
 
 COPY --from=upstream --chown=root:root --chmod=755 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN rpm --import https://ftp.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-AARCH64
+RUN rpm --import https://ftp.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-AARCH64-RHEL8
 
-RUN dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-aarch64/pgdg-redhat-repo-latest.noarch.rpm
+RUN dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-aarch64/pgdg-redhat-repo-latest.noarch.rpm
 
 RUN dnf update -y
 ## not needed, not in ubi
