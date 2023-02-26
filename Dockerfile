@@ -2,7 +2,7 @@ ARG BASE_REGISTRY=docker.io
 ARG BASE_IMAGE=zarguell/ubi8
 ARG BASE_TAG=latest
 
-FROM postgres:15.1 as upstream
+FROM postgres:15.2 as upstream
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
